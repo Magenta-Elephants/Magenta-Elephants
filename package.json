@@ -8,7 +8,8 @@
     "node": ">=6.4.0"
   },
   "scripts": {
-    "react-dev": "./node_modules/.bin/webpack -d --watch"
+    "react-dev": "./node_modules/.bin/webpack -d --watch",
+    "server-dev": "nodemon ./server/index.js"
   },
   "dependencies": {
     "babel-loader": "^7.0.0",
@@ -18,10 +19,11 @@
     "express": "^4.15.2",
     "mysql": "^2.13.0",
     "node-sass": "^4.5.2",
+    "nodemon": "^1.11.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "sass-loader": "^6.0.3",
     "request": "^2.81.0",
+    "sass-loader": "^6.0.3",
     "sequelize": "^3.30.4",
     "style-loader": "^0.17.0",
     "webpack": "^2.4.1"

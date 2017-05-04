@@ -42,6 +42,8 @@ From within the root directory:
 ### Getting Started 
 
 - NPM run react-dev
+- NPM run server-dev
+- Go to localhost:3000
 
 ### Roadmap
 

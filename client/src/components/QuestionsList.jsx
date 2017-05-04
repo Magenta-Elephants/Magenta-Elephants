@@ -3,12 +3,12 @@ import QuestionsListItem from './QuestionsListItem.jsx';
 
 const QuestionsList = props => (
   <ul className="questionsList">
-    <QuestionsListItem />
-    <QuestionsListItem />
-    <QuestionsListItem />
-    <QuestionsListItem />
-    <QuestionsListItem />
-    <QuestionsListItem />
+    <QuestionsListItem changeRight={props.changeRight} />
+    <QuestionsListItem changeRight={props.changeRight} />
+    <QuestionsListItem changeRight={props.changeRight} />
+    <QuestionsListItem changeRight={props.changeRight} />
+    <QuestionsListItem changeRight={props.changeRight} />
+    <QuestionsListItem changeRight={props.changeRight} />
   </ul>
 );
 
