@@ -16,16 +16,29 @@ app.get('/', function (req, res) {
   res.send('Hello World!')
 });
 
+// EXAMPLE DATA SENT FOR A PUT TO /QUESTIONS
+/* {
+*    questionId: 2, 
+*    expertId: 1,
+*    answer: 'this is an example answer'
+*  }
+*/
+
+app.put('/questions', function(req, res) {
+  db.updateQuestion(req.body.questionId, req.body.expertId, req.body.answer, res);
+});
+
 // EXAMPLE DATA SENT FOR A POST TO /QUESTIONS
 /* {
 *    username: 'Oliver',
 *    title: 'Why is Oliver so Awesome?',
 *    body: 'This is an example body' 
 *  }
-*
 */
+
 app.post('/questions', function(req, res) {
   db.createNewQuestion(req.body.username, req.body.title, req.body.body);
+  res.end();
 });
 
 

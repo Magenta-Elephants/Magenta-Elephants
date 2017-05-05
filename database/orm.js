@@ -21,6 +21,27 @@ var Question = db.define('Question', {
   timestamps: false
 });
 
+module.exports.updateQuestion = function(questionId, expertId, answer, res) {
+  Question.sync()
+    .then(() => {
+      return Question.findAll({
+        where: { id: questionId }
+      })
+    })
+    .then((data) => {
+      return data[0].update({
+        answer: answer,
+        Aid_User: expertId
+      })
+    })
+    .then((data) => {
+      db.close();
+      res.end('success!');
+    });
+}
+
+// createNewQuestion(3, 1, 'this is another example answer!!!');
+
 module.exports.createNewQuestion = function(username, title, body) {
   Question.sync()
     .then(() => {
@@ -35,7 +56,7 @@ module.exports.createNewQuestion = function(username, title, body) {
         questionBody: body
       })
     })
-    .then((err) => {
+    .then((result) => {
       db.close();
     })
     .catch((err) => {
@@ -52,6 +73,13 @@ module.exports.createNewQuestion = function(username, title, body) {
 //   .then(function() {
 //     User.create({
 //       username: "heliu",
+//       currentCurrency: 0,
+//       totalCurrency: 0,
+//       noviceRating: 0,
+//       expertRating:0
+//     });
+//     User.create({
+//       username: "john",
 //       currentCurrency: 0,
 //       totalCurrency: 0,
 //       noviceRating: 0,

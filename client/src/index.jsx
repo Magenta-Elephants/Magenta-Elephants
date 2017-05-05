@@ -16,8 +16,8 @@ class App extends React.Component {
       askTitle: '',
       askBody: ''
     }
-    this.changeRight = this.changeRight.bind(this);
     this.createQuestion = this.createQuestion.bind(this);
+    this.changeRight = this.changeRight.bind(this);
     this.changeProp = this.changeProp.bind(this);
   }
 
@@ -62,7 +62,7 @@ class App extends React.Component {
       }
     })
   }
-  
+
   submitAnswer() {
     $.ajax({
       type: 'POST',
@@ -94,6 +94,7 @@ class App extends React.Component {
         <Answer 
           answerDisplayClass={this.state.answerDisplayClass} 
           submitAnswer={this.submitAnswer}
+          updateQuestion={this.updateQuestion}
         />
       </main>
     )
