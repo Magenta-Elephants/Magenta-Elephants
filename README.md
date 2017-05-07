@@ -43,7 +43,7 @@ From within the root directory:
 
 - NPM run react-dev
 - NPM run server-dev
-- Go to localhost:3000
+- Go to localhost:8888
 
 ### Roadmap
 

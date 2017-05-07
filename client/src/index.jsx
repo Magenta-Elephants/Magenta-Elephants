@@ -5,7 +5,7 @@ import Answer from './components/Answer.jsx';
 import RecentQuestions from './components/RecentQuestions.jsx';
 import Ask from './components/Ask.jsx';
 import $ from 'jquery';
-require("!style-loader!css-loader!sass-loader!./sass/all.scss");
+require('!style-loader!css-loader!sass-loader!./sass/all.scss');
 
 class App extends React.Component {
   constructor(props) {

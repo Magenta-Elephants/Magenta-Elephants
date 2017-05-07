@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
 var db = new Sequelize('4um', 'root', '');
 
+
 var User = db.define('User', {
   username: Sequelize.STRING,
   currentCurrency: Sequelize.INTEGER,
@@ -21,6 +22,24 @@ var Question = db.define('Question', {
   timestamps: false
 });
 
+module.exports.checkIfUserExists = function(userid, cb) {
+  return User.sync()
+    .then(() => {
+      return User.findById(userid);
+    })
+    .then((data) => {
+      console.log('the data');
+      if (data) {
+        cb(true);
+      } else {
+        cb(false);
+      }
+    })
+};
+
+// EXAMPLE USAGE OF UPDATE QUESTION:
+// updateQuestion(3, 1, 'this is another example answer!!!');
+
 module.exports.updateQuestion = function(questionId, expertId, answer, res) {
   Question.sync()
     .then(() => {
@@ -40,7 +59,8 @@ module.exports.updateQuestion = function(questionId, expertId, answer, res) {
     });
 }
 
-// createNewQuestion(3, 1, 'this is another example answer!!!');
+// EXAMPLE USAGE OF CREATE NEW QUESTION
+// createNewQuestion('heliu', 'is the sky blue?', 'yes it is blue.');
 
 module.exports.createNewQuestion = function(username, title, body) {
   Question.sync()
@@ -57,7 +77,7 @@ module.exports.createNewQuestion = function(username, title, body) {
       })
     })
     .then((result) => {
-      db.close();
+      // db.close();
     })
     .catch((err) => {
       // I have not added actual error catching yet
@@ -65,8 +85,7 @@ module.exports.createNewQuestion = function(username, title, body) {
       db.close();
     })
 };
-// EXAMPLE USAGE OF CREATE NEW QUESTION
-// createNewQuestion('heliu', 'is the sky blue?', 'yes it is blue.');
+
 
 
 // User.sync()
