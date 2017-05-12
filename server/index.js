@@ -116,7 +116,7 @@ app.listen(port, function() {
 *  }
 */
 
-// EXAMPLE DATA SENT TO A GET TO /expertRating
+// EXAMPLE DATA SENT TO A GET TO /minExpertRating
 /* {
 *    userid: 1 
 *  }

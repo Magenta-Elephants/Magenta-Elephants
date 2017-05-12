@@ -21,7 +21,7 @@ module.exports.Question = db.define('Question', {
   answer: Sequelize.TEXT,
   Nid_User: Sequelize.INTEGER,
   Eid_User: Sequelize.INTEGER,
-  expertRating: Sequelize.INTEGER,
+  minExpertRating: Sequelize.INTEGER,
   noviceRating: Sequelize.INTEGER,
   answered: { type: Sequelize.BOOLEAN, defaultValue: false }
 }, {
