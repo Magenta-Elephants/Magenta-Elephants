@@ -42,38 +42,44 @@ class Ask extends React.Component {
   }
 
   createQuestion(e) {
-    e.preventDefault();
-    var currentQuestion = {
-      questionTitle: this.state.askTitle,
-      questionBody: this.state.askBody
-    };
-    var obj = {
-      username: this.props.username || 'Aelgiadi',
-      title: this.state.askTitle,
-      body: this.state.askBody,
-      tags: this.state.askTags,
-      price: '-' + this.state.askPrice,
-      minExpertRating: this.state.minExpertRating
-    };
 
-    $.ajax({
-      type: 'POST',
-      url: '/questions',
-      data: obj,
-      success: (data) => {
-        this.props.changeCurrency(this.state.askPrice);
-        this.setState({
-          currentQuestion: currentQuestion,
-          redirect: true,
-          askTags: ''
-        })
-        this.props.changeIndexProp('currentQuestion', currentQuestion);
-      },
-      error: (err) => {
-        console.log('error with submitting answer', err)
-      }
-    })
-    
+    if (this.state.askTags === '') {
+      alert('Please Specify at least One Tag');
+    } else if (this.state.askPrice < 0) {
+      alert('Please Specify a Price Amount 0 or greater');
+    } else {
+      e.preventDefault();
+      var currentQuestion = {
+        questionTitle: this.state.askTitle,
+        questionBody: this.state.askBody
+      };
+      var obj = {
+        username: this.props.username || 'Aelgiadi',
+        title: this.state.askTitle,
+        body: this.state.askBody,
+        tags: this.state.askTags,
+        price: '-' + this.state.askPrice,
+        minExpertRating: this.state.minExpertRating
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: '/questions',
+        data: obj,
+        success: (data) => {
+          this.props.changeCurrency(this.state.askPrice);
+          this.setState({
+            currentQuestion: currentQuestion,
+            redirect: true,
+            askTags: ''
+          })
+          this.props.changeIndexProp('currentQuestion', currentQuestion);
+        },
+        error: (err) => {
+          console.log('error with submitting answer', err)
+        }
+      })
+    }
   }
 
   render() {
