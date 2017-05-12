@@ -33,7 +33,7 @@ describe('Persistent 4.um Server', function() {
         currentCurrency: null,
         totalCurrency: null,
         noviceRating: null,
-        expertRating: null
+        minExpertRating: null
       }
     }, function () {
       var queryString = 'SELECT * FROM users';

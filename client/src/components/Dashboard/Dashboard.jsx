@@ -35,7 +35,7 @@ class Dashboard extends React.Component {
           <div className="questionRatings">
             <Rating name="Novice" value={this.props.userInfo.noviceRating} />
             <hr />
-            <Rating name="Expert" value={this.props.userInfo.expertRating} />
+            <Rating name="Expert" value={this.props.userInfo.minExpertRating} />
           </div> 
         </div>
 

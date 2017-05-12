@@ -75,7 +75,7 @@ module.exports.createNewQuestion = function(username, title, body, price, tags, 
           questionBody: body,
           price: price,
           tags: tags,
-          expertRating: minExpertRating
+          minExpertRating: minExpertRating
         })
       } else {
         throw 'user not found';
