@@ -45,24 +45,18 @@
 ## Requirements
 
 - React
-- Redux
 - Express
 - MySql
 - Socket
 
-## Development
-
-### Installing Dependencies
-
-From within the root directory:
-
-- NPM install
-
 ### Getting Started 
 
+- NPM install
 - NPM run react-dev
 - NPM run server-dev
-- Go to localhost:8888
+- From the root directory run node populateDB.js
+- If necessary also run npm run test to clear and repopulate databases
+- Go to localhost:3000
 
 ### Roadmap
 
