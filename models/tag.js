@@ -11,13 +11,19 @@ const addTagIfNotExists = function(tag, cb) {
 };
 
 module.exports.addTagItem = function(questionId, tag) {
-  addTagIfNotExists(tag)
-  .then((tagId) => {
-    db.QuestionTag.create({
-      QuestionId: questionId,
-      TagId: tagId
-    });
-  })
+  db.Tag.sync()
+    .then(() => {
+      addTagIfNotExists(tag)
+    })
+    .then((tagId) => {
+      db.QuestionTag.sync()
+      .then(() => {
+        db.QuestionTag.create({
+          QuestionId: questionId,
+          TagId: tagId
+        });
+      })
+    })
 };
 
 module.exports.getQuestionsFromTag = function(tag, cb) {

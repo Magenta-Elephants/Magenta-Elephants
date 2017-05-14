@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import ReactStars from 'react-stars';
 import $ from 'jquery';
+import Editor from './Editor.jsx';
 
 class Ask extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class Ask extends React.Component {
       askPrice: 20,
       redirect: false,
       minimumRating: 0,
-      tags: ['']
+      tags: [''],
+      text: '' 
     };
     this.tabListener = this.tabListener.bind(this);
     this.changeTag = this.changeTag.bind(this);
@@ -75,7 +77,7 @@ class Ask extends React.Component {
         questionBody: this.state.askBody
       };
       var obj = {
-        username: this.props.username || 'Aelgiadi',
+        username: this.props.username,
         title: this.state.askTitle,
         body: this.state.askBody,
         tags: JSON.stringify(this.state.tags),
@@ -133,7 +135,10 @@ class Ask extends React.Component {
             </div>
           </div>
           <div className="askBody">
-            <textarea className="questionDescription" placeholder="Paste Code Here" value={this.askBody} onChange={ e => this.changeProp('askBody', e.target.value) } ></textarea>
+            <Editor
+                id="editor"
+                onEditorChange={content => this.changeProp('askBody', content)}
+             />
             <div>
               <h2>Tags: Press tab to add more</h2>
               { this.state.tags.map((tag, index) => 
