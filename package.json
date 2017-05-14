@@ -34,11 +34,13 @@
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",
     "react-stars": "^2.1.0",
+    "react-tinymce": "^0.5.1",
     "request": "^2.81.0",
     "sass-loader": "^6.0.3",
     "sequelize": "^3.30.4",
     "socket.io": "^2.0.1",
     "style-loader": "^0.17.0",
+    "tinymce": "^4.6.1",
     "webpack": "^2.4.1"
   },
   "devDependencies": {
