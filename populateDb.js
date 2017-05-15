@@ -52,6 +52,12 @@ setTimeout(() => {
           })
         });
       });
+    })
+    .then(() => {
+      return directDb.Message.sync()
+        .then(() => {
+          return db.Message.createMessage(1, 1, '');
+        });
     });
 }, 250);
 

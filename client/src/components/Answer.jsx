@@ -7,7 +7,6 @@ class Answer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      messages: [],
       ratingVisible: false,
       submitAnswerDisplay: 'block'
     };
@@ -20,12 +19,8 @@ class Answer extends React.Component {
 
   componentWillMount() {
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: '/messages/' + this.props.question.id,
-      success: (data) => {
-        console.log('the messages!', data, typeof data);
-        this.setState({ messages: JSON.parse(data) });
-      },
       error: (err) => {
         console.log('error with submitting answer', err);
       }
@@ -33,16 +28,16 @@ class Answer extends React.Component {
   }
 
   recieveMessage(data) {
-    var messages = this.state.messages;
-    console.log('the data', data);
-    messages.push({ user: data.user, msg: data.msg });
-    this.setState({ messages: messages });
+    var question = this.props.question;
+    question.Messages.push({ user: data.user, msg: data.msg });
+    this.props.changeIndexProp('currentQuestion', question);
   }
 
   componentDidMount() {
     this.socket = io('/' + this.props.question.id);
     this.socket.emit('new user', this.props.username, () => {});
     this.socket.on('new message', (e) => {
+      console.log('message recieved');
       this.recieveMessage(e);
     });
     this.socket.on('finish', (e) => {
@@ -51,6 +46,10 @@ class Answer extends React.Component {
         submitAnswerDisplay: 'none'
       });
     });
+  }
+
+  componentWillUnmount() {
+    this.socket.disconnect();
   }
 
   changeProp(key, value) {
@@ -67,32 +66,35 @@ class Answer extends React.Component {
   sendMessage(value) {
     this.socket.emit('new message', {msg: value, user: this.props.username});
     var newMessage = {
-      username: this.props.username,
+      userId: this.props.username,
       body: value,
       questionId: this.props.question.id
     };
-    $.ajax({
-      type: 'POST',
-      url: '/messages',
-      data: newMessage,
-      success: (data) => {
-        console.log('success!', data);
-      },
-      error: (err) => {
-        console.log('error with sending message', err);
-      }
-    });
+    // $.ajax({
+    //   type: 'POST',
+    //   url: '/messages',
+    //   data: newMessage,
+    //   success: (data) => {
+    //     console.log('success!', data);
+    //   },
+    //   error: (err) => {
+    //     console.log('error with sending message', err);
+    //   }
+    // });
   }
 
-  render () {
+  render() {
     return (
-      <section className="main">
-        <AskedQuestion question={this.props.question}/>
+      <section className="main answer">
+        <div className="question">
+          <h1 className="headline">{this.props.question.questionTitle}</h1>
+          <p className="askedQuestionDescription">{this.props.question.questionBody}</p> 
+        </div>
         <AnswerQuestion 
           role={this.role}
           changeProp={this.changeProp}
           sendMessage={this.sendMessage} 
-          messages={this.state.messages} 
+          messages={this.props.question.Messages} 
           finishQuestion={this.finishQuestion}
           questionId={this.props.question.id}
           userId={this.userId}

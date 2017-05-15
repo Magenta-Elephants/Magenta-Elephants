@@ -56,7 +56,7 @@ var clearDB = function(connection, tablenames, done) {
 
 describe('Successfully authenticating through github', function() {
   var dbConnection;
-  var tableNames = ['QuestionTags', 'Tags', 'Sessions', 'Users', 'Questions', 'Session'];
+  var tableNames = ['Messages', 'QuestionTags', 'Tags', 'Sessions', 'Questions', 'Users'];
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
       user: 'root',
@@ -236,6 +236,9 @@ describe('questions: ', function() {
               // gives time for question to be inserted into db
               directDb.Question.sync()
                 .then(() => {
+                  return db.Message.createMessage(1, 1, '');
+                })
+                .then(() => {
                   db.Question.getQuestions('', (response) => {
                     expect(response.length).to.equal(1);
                     done();
@@ -249,7 +252,7 @@ describe('questions: ', function() {
 
 describe('users: ', function() {
   var dbConnection;
-  var tableNames = ['Sessions', 'Questions', 'Users'];
+  var tableNames = ['Messages', 'Sessions', 'Questions', 'Users'];
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
       user: 'root',

@@ -47,7 +47,8 @@ module.exports.finishQuestion = function(questionId) {
   .then((expert) => {
     var currentCurrency = expert.currentCurrency;
     return expert.update({
-      currentCurrency: currentCurrency + questionPrice
+      currentCurrency: currentCurrency - questionPrice,
+      totalCurrency: currentCurrency - questionPrice
     });
   })
   .catch((err) => {
@@ -118,10 +119,13 @@ module.exports.getQuestions = function (query, cb) {
     .then(() => {
       if (query) {
         return db.Question.find({
-          where: query
+          where: query,
+          include: db.Message
         });
       } else {
-        return db.Question.findAll();
+        return db.Question.findAll({
+          include: db.Message
+        });
       }
     })
     .then(questions => { 

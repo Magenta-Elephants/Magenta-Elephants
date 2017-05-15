@@ -44,7 +44,7 @@ module.exports.updateCurrency = function(username, change) {
         });
       } else {
         return user.update({
-          currentCurrency: user.currentCurrency + change
+          currentCurrency: user.totalCurrency + change
         });
       }
     });
@@ -98,14 +98,14 @@ module.exports.getUserInfo = function(username, cb) {
 
       getQuestions('novice', user.id, (noviceQuestions) => {
         noviceQuestions = noviceQuestions || [];
-        user.recentNoviceQuestions = noviceQuestions.slice(0, 10);
+        user.recentNoviceQuestions = noviceQuestions.slice(0, 10).reverse();
         user.noviceRating = findRatingFromQuestions('novice', noviceQuestions);
         (counter === 1) ? cb(user) : counter++;
       });
 
       getQuestions('expert', user.id, (expertQuestions) => {
         expertQuestions = expertQuestions || [];
-        user.recentExpertQuestions = expertQuestions.slice(0, 10);
+        user.recentExpertQuestions = expertQuestions.slice(0, 10).reverse();
         user.expertRating = findRatingFromQuestions('expert', expertQuestions);
         (counter === 1) ? cb(user) : counter++;
       });
