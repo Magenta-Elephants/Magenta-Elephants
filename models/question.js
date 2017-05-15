@@ -62,7 +62,6 @@ module.exports.finishQuestion = function(questionId) {
 module.exports.createNewQuestion = function(username, title, body, price, tags, minExpertRating) {
   return db.Question.sync()
   .then(() => {
-    console.log('this is the username', username);
     return db.User.findAll({
       where: { username: username }
     });

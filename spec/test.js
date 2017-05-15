@@ -5,6 +5,7 @@ const httpMocks = require('node-mocks-http');
 const chaiHttp = require('chai-http');
 const Sequelize = require('sequelize');
 const request = require('request');
+const populate = require('./populateDb.js');
 const login = Promise.promisifyAll(require('../middleware/onLogin.js'));
 const db = require('../models/index');
 const directDb = require('../database/index');
@@ -45,7 +46,6 @@ var clearDB = function(connection, tablenames, done) {
     connection.query('DROP TABLE IF EXISTS ' + tablename, function() {
       count++;
       if (count === tablenames.length) {
-        console.log(123);
         return done();
       }
     })
@@ -186,7 +186,7 @@ describe('authentication', function() {
 
 describe('questions: ', function() {
   var dbConnection;
-  var tableNames = ['QuestionTags', 'Tags', 'Sessions', 'Users', 'Questions'];
+  var tableNames = ['Sessions', 'Users', 'Questions'];
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
       user: 'root',
@@ -307,4 +307,13 @@ describe('users: ', function() {
       });
   });
 });
+
+describe('repopulate db', function() {
+  it('repopulates the db after running tests', function(done) {
+    populate();
+    setTimeout(function() {
+      done();
+    }, 1500);
+  })
+})
 
