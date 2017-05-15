@@ -5,10 +5,10 @@ $navFlexWidth: .14;
 $mainFlexWidth: 1 - $navFlexWidth;
 $recentQuestionsFlexWidth: .525;
 $askFlexWidth: 1 - $recentQuestionsFlexWidth - .01;
-$answerFlexWidth: 1 - $recentQuestionsFlexWidth - .01;
+$askedQuestionFlexWidth: 1 - $recentQuestionsFlexWidth - .01;
 $dashboardFlexWidth: 1 - $recentQuestionsFlexWidth - .01;
 $giveAnswerFlexWidth: 1 - $recentQuestionsFlexWidth - .01;
-$lightestGrayBackground: #f3f3f3;
+$lightestGrayBackground: #efefef;
 $grayText: #9b9ba2; 
 $profilePictureSize: 12rem;
 
@@ -33,6 +33,7 @@ html {
 body, main {
   margin: 0px;
   background-color: #e5e5e5;
+  overflow: hidden;
 }
 
 main {
@@ -43,6 +44,7 @@ main {
     border: 7px solid #e5e5e5;
     height: 96vh;
     padding: 1rem;
+    overflow: scroll;
   }
   .nav {
     border: 0;
@@ -134,6 +136,11 @@ main {
       }
     }
   }
+  .askedQuestion {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    flex: $askedQuestionFlexWidth;
+  }
   .ask {
     flex: $askFlexWidth;
     padding: 0rem 1rem 0rem 1rem;
@@ -183,15 +190,26 @@ main {
     }
   }
   .answer {
-    flex: $answerFlexWidth;
-    padding: 0rem 1rem 0rem 1rem;
-    .askedQuestionDescription {
-      font-size: 1.8rem;
+    display: flex;
+    .question {
+      width: 45%;
+      padding: 0rem 1rem 0rem 1rem;
+      .askedQuestionDescription {
+        font-size: 1.8rem;
+      }
+      textarea {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        min-height: 150px;
+      }
     }
-    textarea {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      min-height: 150px;
-    }
+    .giveAnswer {
+      flex: 1;
+      margin-right: 4rem;
+      margin-top: 3rem;
+      height: 77vh;
+      padding: 4rem;
+      background-color: white;
+    }  
   }
   .dashboard {
     flex: $dashboardFlexWidth;
@@ -231,6 +249,7 @@ main {
       }
     }
     #secondRow {
+      min-height: 17rem;
       .askedQuestions {
         width: 55%;
         margin-right: 1rem;
@@ -279,9 +298,18 @@ main {
     }
     .recentQuestionsList {
       padding-left: 0;
+      max-height: 16rem;
+      overflow: scroll;
       li {
         cursor: pointer;
         position: relative;
+        h3 {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 70%;
+          margin-left: 11.5%;
+        }
         i {
           position: absolute;
           top: 50%;
@@ -313,7 +341,6 @@ main {
 }
 
 .searchBar {
-  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 1rem;
   margin: $generalMargin; 
   width: 97%;
@@ -325,6 +352,10 @@ main {
   text-align: center;
   color: $grayText;
   letter-spacing: .27rem;
+}
+
+p {
+  font-size: 1.4rem;
 }
 
 textarea {

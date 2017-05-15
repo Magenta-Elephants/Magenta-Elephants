@@ -68,6 +68,7 @@ class App extends React.Component {
                 username={this.state.username} 
                 userId={this.state.userId}
                 question={this.state.currentQuestion} 
+                changeIndexProp={this.changeProp}
                 changeUserCurrency={this.changeUserCurrency}
               />
             )} />

@@ -86,19 +86,17 @@ app.put('/questions', function(req, res) {
 });
 
 app.post('/messages', function(req, res) {
-  db.Message.createMessage(req.body.questionId, req.body.username, req.body.body);
+  db.Message.createMessage(req.body.questionId, req.body.userId, req.body.body);
   res.end();
 });
 
-app.get('/messages/*', function(req, res) {
+app.post('/messages/*', function(req, res) {
   var slashIndex = req.url.lastIndexOf('/') + 1;
   var destination = req.url.substring(slashIndex);
-
-  createNamespace(destination);
-  db.Message.getMessages(destination)
-    .then((messages) => {
-      res.end(JSON.stringify(messages));
-    });
+  if (!namespaces.includes(destination)) {
+    namespaces.push(destination);
+    createNamespace(destination);
+  }
 })
 
 app.use(express.static(process.env.PWD + '/client'));
@@ -117,6 +115,7 @@ var server = app.listen(port, function() {
   console.log('Listening on port 3000 the dirname is', process.env.PWD + '/../client');
 });
 const io = require('socket.io')(server);
+var namespaces = [] 
 connections = [];
 users = [];
 
@@ -125,6 +124,9 @@ var createNamespace = function(destination) {
   nsp.on('connection', function(socket) {
     connections.push(socket);
     console.log(`someone connected`);
+    socket.on('disconnect', function() {
+      console.log('user disconnected');
+    })
 
     socket.on('new user', function(data, callback) {
       callback(true);

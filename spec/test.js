@@ -5,6 +5,7 @@ const httpMocks = require('node-mocks-http');
 const chaiHttp = require('chai-http');
 const Sequelize = require('sequelize');
 const request = require('request');
+const populate = require('./populateDb.js');
 const login = Promise.promisifyAll(require('../middleware/onLogin.js'));
 const db = require('../models/index');
 const directDb = require('../database/index');
@@ -45,7 +46,6 @@ var clearDB = function(connection, tablenames, done) {
     connection.query('DROP TABLE IF EXISTS ' + tablename, function() {
       count++;
       if (count === tablenames.length) {
-        console.log(123);
         return done();
       }
     })
@@ -56,7 +56,7 @@ var clearDB = function(connection, tablenames, done) {
 
 describe('Successfully authenticating through github', function() {
   var dbConnection;
-  var tableNames = ['QuestionTags', 'Tags', 'Sessions', 'Users', 'Questions', 'Session'];
+  var tableNames = ['Messages', 'QuestionTags', 'Tags', 'Sessions', 'Questions', 'Users'];
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
       user: 'root',
@@ -186,7 +186,7 @@ describe('authentication', function() {
 
 describe('questions: ', function() {
   var dbConnection;
-  var tableNames = ['QuestionTags', 'Tags', 'Sessions', 'Users', 'Questions'];
+  var tableNames = ['Sessions', 'Users', 'Questions'];
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
       user: 'root',
@@ -236,6 +236,9 @@ describe('questions: ', function() {
               // gives time for question to be inserted into db
               directDb.Question.sync()
                 .then(() => {
+                  return db.Message.createMessage(1, 1, '');
+                })
+                .then(() => {
                   db.Question.getQuestions('', (response) => {
                     expect(response.length).to.equal(1);
                     done();
@@ -249,7 +252,7 @@ describe('questions: ', function() {
 
 describe('users: ', function() {
   var dbConnection;
-  var tableNames = ['Sessions', 'Questions', 'Users'];
+  var tableNames = ['Messages', 'Sessions', 'Questions', 'Users'];
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
       user: 'root',
@@ -304,4 +307,13 @@ describe('users: ', function() {
       });
   });
 });
+
+describe('repopulate db', function() {
+  it('repopulates the db after running tests', function(done) {
+    populate();
+    setTimeout(function() {
+      done();
+    }, 1500);
+  })
+})
 

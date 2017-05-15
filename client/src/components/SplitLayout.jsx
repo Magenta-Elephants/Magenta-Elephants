@@ -19,11 +19,21 @@ class SplitLayout extends React.Component {
     this.changeSearch = this.changeSearch.bind(this);
     this.searchTags = this.searchTags.bind(this);
     this.getQuestions = this.getQuestions.bind(this);
+    this.addQuestion = this.addQuestion.bind(this);
   }
 
   componentWillMount() {
     this.getQuestions();
-    this.getQuestionsInterval = setInterval(this.getQuestions, 5000);
+    this.getQuestionsInterval = setInterval(this.getQuestions, 25000);
+  }
+
+  addQuestion(question) {
+    console.log(question, this.state.questions);
+    var questions = this.state.questions;
+    questions.unshift(question);
+    this.setState({
+      questions: questions
+    });
   }
 
   getQuestions() {
@@ -95,6 +105,7 @@ class SplitLayout extends React.Component {
             <Ask 
               changeUserCurrency={this.props.changeUserCurrency}
               changeIndexProp={this.props.changeIndexProp}
+              addQuestion={this.addQuestion}
               personalInfo={this.props.personalInfo}
               username={this.props.username}
               questions={this.state.questions}

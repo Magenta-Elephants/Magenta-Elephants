@@ -19,30 +19,12 @@ class Ask extends React.Component {
     this.changeTag = this.changeTag.bind(this);
     this.createQuestion = this.createQuestion.bind(this);
     this.changeProp = this.changeProp.bind(this);
-    this.chooseFilter = this.chooseFilter.bind(this);
-    this.addToProp = this.addToProp.bind(this);
   }
 
   changeProp(key, val) {
     this.setState({
       [key]: val
     });
-  }
-
-  addToProp(key, val) {
-    this.setState({
-      [key]: this.state[key] + ',' + val
-    })
-  }
-
-  chooseFilter(e) {
-    if($(e.target).hasClass('selected')){
-      $(e.target).removeClass('selected')
-    } else {
-      $(e.target).addClass('selected');
-      console.log('Value: ', e.target.value)
-      this.addToProp('askTags', e.target.value)
-    }
   }
 
   changeTag(e, index) {
@@ -72,16 +54,32 @@ class Ask extends React.Component {
     } else {
       var currentQuestion = {
         questionTitle: this.state.askTitle,
-        questionBody: this.state.askBody
+        questionBody: this.state.askBody,
+        username: this.props.username,
+        tags: this.state.tags,
+        avatar: this.props.personalInfo.avatar_url,
+        Messages: []
       };
+
+      this.props.changeIndexProp('currentQuestion', currentQuestion);
+      this.props.addQuestion({
+        questionTitle: this.state.askTitle,
+        questionBody: this.state.askBody,
+        username: this.props.username,
+        tags: this.state.tags,
+        avatar: this.props.personalInfo.avatar_url
+      });
+
       var obj = {
-        username: this.props.username || 'Aelgiadi',
+        username: this.props.username || 'Oriooctopus',
         title: this.state.askTitle,
         body: this.state.askBody,
         tags: JSON.stringify(this.state.tags),
         price: '-' + this.state.askPrice,
-        minExpertRating: this.state.minExpertRating
+        minExpertRating: this.state.minExpertRating,
       };
+
+
 
       $.ajax({
         type: 'POST',
@@ -93,7 +91,6 @@ class Ask extends React.Component {
             redirect: true,
             tags: ['']
           })
-          this.props.changeIndexProp('currentQuestion', currentQuestion);
         },
         error: (err) => {
           console.log('error with submitting answer', err)
