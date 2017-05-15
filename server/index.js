@@ -22,8 +22,8 @@ app.get('/testing', function(req, res, next) {
 });
 console.log(99999);
 app.get('/', function(req, res, next) {
-  console.log('got to index!');
-  res.redirect('/dashboard');
+  res.sendFile(process.env.PWD + '/client/landing.html');
+  // res.redirect('/dashboard');
 });
 
 app.get('/dashboard', sessionParser, function(req, res, next) {
