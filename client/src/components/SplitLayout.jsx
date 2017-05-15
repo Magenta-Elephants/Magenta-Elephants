@@ -19,11 +19,21 @@ class SplitLayout extends React.Component {
     this.changeSearch = this.changeSearch.bind(this);
     this.searchTags = this.searchTags.bind(this);
     this.getQuestions = this.getQuestions.bind(this);
+    this.addQuestion = this.addQuestion.bind(this);
   }
 
   componentWillMount() {
     this.getQuestions();
     this.getQuestionsInterval = setInterval(this.getQuestions, 5000);
+  }
+
+  addQuestion(question) {
+    console.log(question, this.state.questions);
+    var questions = this.state.questions;
+    questions.unshift(question);
+    this.setState({
+      questions: questions
+    });
   }
 
   getQuestions() {
@@ -63,29 +73,37 @@ class SplitLayout extends React.Component {
   }
 
   answerQuestion(index) {
-    clearInterval(this.getQuestionsInterval);
-    var questions = this.state.questions;
-    questions[index].Eid_User = this.props.userId;
-    this.setState({ questions: questions });
-    this.props.changeIndexProp('currentQuestion', questions[index]);
-    var obj = {
-      Eid_User: this.props.personalInfo.id,
-      questionId: this.state.questions[index].id
-    };
-    $.ajax({
-      type: 'PUT',
-      url: '/questions',
-      data: obj,
-      err: (err) => {
-        console.log('error!');
-      }
-    });
+    var requiredRating = this.state.questions[index].requiredRating;
+    if (this.props.personalInfo !== 0 && this.props.personalInfo.expertRating < requiredRating) {
+      alert('sorry, this song\'s required rating of ' + requiredRating + 'is too high for you');
+      return false;
+    } else {
+      clearInterval(this.getQuestionsInterval);
+      var questions = this.state.questions;
+      questions[index].Eid_User = this.props.userId;
+      this.setState({ questions: questions });
+      this.props.changeIndexProp('currentQuestion', questions[index]);
+      var obj = {
+        Eid_User: this.props.personalInfo.id,
+        questionId: this.state.questions[index].id
+      };
+      $.ajax({
+        type: 'PUT',
+        url: '/questions',
+        data: obj,
+        err: (err) => {
+          console.log('error!');
+        }
+      }); 
+      return true;
+    }
   }
 
   render() {
     return (
       <div className="main">
         <RecentQuestions 
+          userId={this.props.userId}
           answerQuestion={this.answerQuestion}
           changeSearch={this.changeSearch}
           questions={this.state.questions}
@@ -95,6 +113,7 @@ class SplitLayout extends React.Component {
             <Ask 
               changeUserCurrency={this.props.changeUserCurrency}
               changeIndexProp={this.props.changeIndexProp}
+              addQuestion={this.addQuestion}
               personalInfo={this.props.personalInfo}
               username={this.props.username}
               questions={this.state.questions}

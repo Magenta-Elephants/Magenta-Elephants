@@ -27,7 +27,7 @@ class AnswerQuestion extends React.Component {
 
   render() {
     return (
-      <section className="giveAnswer">
+      <div className="giveAnswer">
         {
           this.props.messages.map((message, index) => 
             <Message message={message} key={index} />
@@ -45,7 +45,7 @@ class AnswerQuestion extends React.Component {
           role={this.props.role} 
           ratingVisible={this.props.ratingVisible} 
         />
-      </section>
+      </div>
     )
   }
 }

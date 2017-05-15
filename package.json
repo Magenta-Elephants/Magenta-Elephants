@@ -11,7 +11,7 @@
     "build": "NODE_ENV=production webpack --config ./webpack.prod.config.js --progress --colors",
     "react-dev": "./node_modules/.bin/webpack -d --watch",
     "server-dev": "nodemon ./server/index.js",
-    "test": "mocha --bail --reporter nyan spec/personal.js"
+    "test": "mocha --bail --reporter nyan spec/test.js"
   },
   "dependencies": {
     "babel-loader": "^7.0.0",
