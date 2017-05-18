@@ -21,10 +21,10 @@ app.get('/testing', function(req, res, next) {
   res.end('this is a test');
 });
 
-app.get('/', function(req, res, next) {
-  console.log('got to index!');
-  res.redirect('/dashboard');
-});
+// app.get('/', function(req, res, next) {
+//   console.log('got to index!');
+//   // res.redirect('/dashboard');
+// });
 
 app.get('/dashboard', sessionParser, function(req, res, next) {
   res.sendFile(process.env.PWD + '/client/index.html');
@@ -76,6 +76,7 @@ app.get('/questions', function (req, res) {
 });
 
 app.post('/questions', jsonParser, function(req, res) {
+  console.log('client request from IOS!!');
   req.body.tags = JSON.parse(req.body.tags);
   db.Question.createNewQuestion(req.body.username, req.body.title, req.body.body, Number(req.body.price), req.body.tags, req.body.minExpertRating );
   db.User.updateCurrency(req.body.username, Number(req.body.price));
@@ -116,7 +117,7 @@ app.get('/users*', function(req, res) {
 });
 
 app.get('*', function(req, res) {
-  res.redirect('/dashboard');
+  // res.redirect('/dashboard');
 });
 
 

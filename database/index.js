@@ -1,8 +1,20 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('heroku_689621e8f649711', 'b12eb2bede6b4d', 'ad517216', {
-  host: 'us-cdbr-iron-east-03.cleardb.net',
-  logging: false
+
+const db = new Sequelize('test', 'root', '', {
+  host: 'localhost',
+  dialect: 'mysql',
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  },
+  define: {freezeTableName: true}
 });
+
+// const db = new Sequelize('heroku_689621e8f649711', 'b12eb2bede6b4d', 'ad517216', {
+//   host: 'us-cdbr-iron-east-03.cleardb.net',
+//   logging: false
+// });
 
 const timestampsAreFalse = { timestamps: false };
 

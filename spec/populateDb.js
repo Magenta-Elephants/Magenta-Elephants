@@ -14,11 +14,18 @@ var clearDB = function(connection, tablenames) {
 
 module.exports = function() {
 
+  // dbConnection = mysql.createConnection({
+  //   user: 'b12eb2bede6b4d',
+  //   password: 'ad517216',
+  //   database: 'heroku_689621e8f649711',
+  //   host: 'us-cdbr-iron-east-03.cleardb.net'
+  // });
+
   dbConnection = mysql.createConnection({
-    user: 'b12eb2bede6b4d',
-    password: 'ad517216',
-    database: 'heroku_689621e8f649711',
-    host: 'us-cdbr-iron-east-03.cleardb.net'
+    user: 'root',
+    password: '',
+    database: 'test',
+    host: 'localhost'
   });
 
   dbConnection.connect(function(err) {

@@ -58,12 +58,19 @@ describe('Successfully authenticating through github', function() {
   var dbConnection;
   var tableNames = ['Messages', 'QuestionTags', 'Tags', 'Sessions', 'Questions', 'Users'];
   beforeEach(function(done) {
-    dbConnection = mysql.createConnection({
-      user: 'b12eb2bede6b4d',
-      password: 'ad517216',
-      database: 'heroku_689621e8f649711',
-      host: 'us-cdbr-iron-east-03.cleardb.net'
-    });
+    // dbConnection = mysql.createConnection({
+    //   user: 'b12eb2bede6b4d',
+    //   password: 'ad517216',
+    //   database: 'heroku_689621e8f649711',
+    //   host: 'us-cdbr-iron-east-03.cleardb.net'
+    // });
+
+  dbConnection = mysql.createConnection({
+    user: 'root',
+    password: '',
+    database: 'test',
+    host: 'localhost'
+  });
 
     dbConnection.connect(function(err) {
       if (err) {
@@ -126,7 +133,7 @@ describe('Successfully authenticating through github', function() {
       .then(() => {
         directDb.User.sync()
           .then(() => {
-            return directDb.User.findAll(); 
+            return directDb.User.findAll();
           })
           .then((data) => {
             expect(data.length).to.equal(1);
@@ -174,14 +181,14 @@ describe('authentication', function() {
   it('does not redirect when valid cookies are attached', function(done) {
     directDb.Session.sync()
       .then(() => {
-        return db.Session.createSession(1, '4um'); 
+        return db.Session.createSession(1, '4um');
       })
       .then((result) => {
         chai.request('http://localhost:3000/dashboard').
           get('/').
           set('Cookie', `forumNumber=${result.cookieNum}`).
           set('user-agent', '4um').
-          end((err, res) => { 
+          end((err, res) => {
             expect(res).to.not.redirect;
             done();
           });
@@ -194,11 +201,18 @@ describe('questions: ', function() {
   var dbConnection;
   var tableNames = ['Sessions', 'Users', 'Questions'];
   beforeEach(function(done) {
+    // dbConnection = mysql.createConnection({
+    //   user: 'b12eb2bede6b4d',
+    //   password: 'ad517216',
+    //   database: 'heroku_689621e8f649711',
+    //   host: 'us-cdbr-iron-east-03.cleardb.net'
+    // });
+
     dbConnection = mysql.createConnection({
-      user: 'b12eb2bede6b4d',
-      password: 'ad517216',
-      database: 'heroku_689621e8f649711',
-      host: 'us-cdbr-iron-east-03.cleardb.net'
+      user: 'root',
+      password: '',
+      database: 'test',
+      host: 'localhost'
     });
     dbConnection.connect(function(err) {
       if (err) {
@@ -242,7 +256,7 @@ describe('questions: ', function() {
         chai.request('http://localhost:3000/questions').
           post('/').
           send(exampleObj).
-          end((err, res) => { 
+          end((err, res) => {
             setTimeout(function() {
               // gives time for question to be inserted into db
               directDb.Question.sync()
@@ -265,11 +279,18 @@ describe('users: ', function() {
   var dbConnection;
   var tableNames = ['Messages', 'Sessions', 'Questions', 'Users'];
   beforeEach(function(done) {
+    // dbConnection = mysql.createConnection({
+    //   user: 'b12eb2bede6b4d',
+    //   password: 'ad517216',
+    //   database: 'heroku_689621e8f649711',
+    //   host: 'us-cdbr-iron-east-03.cleardb.net'
+    // });
+
     dbConnection = mysql.createConnection({
-      user: 'b12eb2bede6b4d',
-      password: 'ad517216',
-      database: 'heroku_689621e8f649711',
-      host: 'us-cdbr-iron-east-03.cleardb.net'
+      user: 'root',
+      password: '',
+      database: 'test',
+      host: 'localhost'
     });
     dbConnection.connect(function(err) {
       if (err) {
@@ -285,13 +306,13 @@ describe('users: ', function() {
   });
 
   it('a user starts off with 100 points', function(done) {
-    db.User.createUser('exampleUser', '', '')
+    db.User.createUser('exampleUser', '', '', 100, 100)
       .then(() => {
         db.User.getUserInfo('exampleUser', (userInfo) => {
           expect(userInfo.currentCurrency).to.equal(100);
           expect(userInfo.totalCurrency).to.equal(100);
           done();
-        }); 
+        });
       });
   });
 
